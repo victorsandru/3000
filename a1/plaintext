@@ -1,0 +1,5 @@
+1. This is because when you use the 'sudo' command you are entering the super user.  
+   This user has access to all permissions and can do almost anything. Having things saved from other users can be a security risk. However you can use the 'preserve-env' like so: sudo -E env. This flag indiicates that the user wants to preserve their existing env variables
+2.
+3. This command works because it is running the echo command. The echo command prints to the terminal whatever input the user inputs. And the env var is still saved to the terminal session. The env command on the otherhand has read/write privileges in the shell in comparsion to echo where it only has read. This makes env a bigger security risk.
+4. export is a shell built in command as opposed to a normal command. A shell built in command are reserved keywords that works with other commands.
