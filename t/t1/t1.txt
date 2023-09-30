@@ -1,0 +1,25 @@
+1. uname -r: to find the version of the linux kernel
+    lsb_release -a: to find linux version
+    cat /etc/os-release: find linux version
+    lscpu: find info on cpu
+    top: find RAM info
+    df: find storage info, -H for human readable
+2. which: locates a command location
+    pwd: prints current working diretory
+    whoami: prints current userid in shell
+    whereis: locate command location in storage
+    whatis: one line man of a command
+3. You can use the type command to check if it is internal or not
+    hello would not have worked. This is because the hello file is a script. A script needs the . before
+    git: /usr/bin/git
+    gcc: /usr/bin/gcc
+    curl: /usr/bin/curl
+4. you can find docs online
+    add current directory: export PATH=$PATH:$(pwd)
+    You can make it permanent by adding it to the shell config file as an env var
+5. ls -l $(which git)
+6. permission bits are owner permissions, group permissions. it is a 9 char long string.
+7. passwd has the owner student, group student and no rw permissions
+8. It means that you can look at extended info of the directory
+9.you can use the -l flag to find more files and details of all of them. You can preappend a '.' before a file to hide them
+10. in this shell, you cannot move directories and you have to wait child processes to finish before doing anything else
