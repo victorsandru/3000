@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <malloc.h>
 
 char *gmsg = "Global Message";
 
@@ -28,8 +29,11 @@ int main(int argc, char *argv[], char *envp[])
         printf("sbrk(0):   %lx\n", (unsigned long) sbrk(0));
         printf("&buf:      %lx\n", (unsigned long) &buf);
 
+        mallopt(M_MMAP_THRESHOLD, 200*1024);
         for (i = 0; i<buffer_size; i++) {
-                buf[i] = (char *) mallopt(200 * 1024);
+                // buf[i] = (char *) malloc(4096);
+                // buf[i] = (char *) malloc(199 * 1024);
+                buf[i] = (char *) malloc(200 * 1024);
         }
         
         printf("buf[0]:    %lx\n", (unsigned long) buf[0]);

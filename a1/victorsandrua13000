@@ -1,0 +1,15 @@
+1. This is because when you use the 'sudo' command you are entering the super user.  
+   This user has access to all permissions and can do almost anything. Having things saved from other users can be a security risk. However you can use the 'preserve-env' like so: sudo -E env. This flag indicates that the user wants to preserve their existing env variables
+2. When running the "sudo", the kernel checks if the user has privledges to the super user permissions. So when running the "env" command, the process is in the root because of the sudo call, and is in kernel mode. Afterwards, the process returns to non-root user mode. 
+3. This command works because it is running the echo command. The echo command prints to the terminal whatever input the user inputs. And the env var is still saved to the terminal session. The env command on the otherhand has read/write privileges in the shell in comparsion to echo where it only has read. This makes env a bigger security risk.
+4. After sudo is run, env function creates an env var in the sudo shell (which is different from the shell you are currently in), and when the process is done, the shell is killed and is returned to your shell. So technically it does not fail, but it creates the variable in a different shell than where you currently are.
+
+5a. You can use the mallopt function and pass in the M_MMAP_THRESHOLD as a value in the function like this: mallopt(M_MMAP_THRESHOLD, 200 * 1024);. You can also change the enviornment variable directly in the shell without needing the C function. You can do export MALLOC M_MMAP_THRESHOLD=$THRESHOLD, wherre $THRESHOLD is your new threshold
+   b. export MALLOC_MMAP_THRESHOLD_=204800
+   c. Changed Line 32 - line 36
+
+6a. most portable in order from most to least 1. hello.c 2. syscall-hello.c 3. syscall2-hello.c
+   b. I ordered hello.c as the most portable because compared to the other programs, it does not have system calls.
+      I next ordered syscall-hello.c as the next most portable because although it has system calls (which arent portable because each kernel is different), it has less than the last file.
+      I ordered syscall2-hello.c least portable because it contains assembly. Assembly depends on the machine code instructions, so it has a lot of limitations.
+7. The difference is that in syscall-hello.c you are using a standard libary function of syscall(). This means that syscall-hello.c is essentially just a wrapper for syscall-2-hello.c. syscall-2-hello.c is using assembly to write a system call while the other file uses a standard library function.
