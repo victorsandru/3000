@@ -1,2 +1,33 @@
-A1. hello.c is very similar to syscall-hello.s file. They have the same format and ending doing the same thing. In fact I think they are identical execpt for the name.
-A2. 
+A1. I see some similarities since there are some system calls. I dont know assemly though so it's hard to see.
+A2. It is probably being run around line 17. This is because there is a system call here. I am not sure exactly what it does, but there are no other sys calls.
+A3. hello.c is very similar to syscall-hello.s file. They have the same format and ending doing the same thing. In fact I think they are identical execpt for the name.
+
+B1. dynamic is 20K and 852K static. so static is much bigger because it links the assembly code with the object file.
+B2. the system-hello.c dynamic file has the most system calls. I think this is because dynamic loads all of the dynamic libraries
+B3. the dynamic has more library calls. This is because it is dynamic it is using the sys cal direcetly.
+B4. -z lazy is used to control dynamic libaries are loaded. so it instructus the linker to lazy bind the shared libaries with your program.
+B5. ldd syscall-hello.dynamic 
+        linux-vdso.so.1 (0x00007ffc283c8000)
+        libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fea421f3000)
+        /lib64/ld-linux-x86-64.so.2 (0x00007fea423fa000)
+    Static files do not have dynamic libarries dependencies
+
+C1. 
+Memory report
+argv:      7ffe0b0dcad8
+argv[0]:   7ffe0b0de606
+envp:      7ffe0b0dcae8
+envp[0]:   7ffe0b0de615
+lmsg:      5603f752a018
+&lmsg:     7ffe0b0dc9b0
+gmsg:      5603f752a004
+&gmsg:     5603f752c010
+main:      5603f75291c9
+sbrk(0):   5603f79ed000
+&buf:      7ffe0b0dc660
+buf[0]:    5603f79cc6b0
+sbrk(0):   5603f7a50000
+The addresses are different because the cpu allocated different addreses on each compilation
+C2. the stack usually grows downword in memory. The satck is probably at a high memory address.
+the heap is located below the stack in the mmory. sbrk(0) represents the end of the heap (5603f7a50000).
+C3. the values of sbrk changes since the stack is grown because we are allocating more dynamic memory.

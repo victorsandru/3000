@@ -1,29 +1,42 @@
-	.section	__TEXT,__text,regular,pure_instructions
-	.build_version macos, 14, 0	sdk_version 14, 0
-	.globl	_main                           ; -- Begin function main
-	.p2align	2
-_main:                                  ; @main
+	.file	"hello.c"
+	.text
+	.section	.rodata.str1.1,"aMS",@progbits,1
+.LC0:
+	.string	"Hello world!"
+	.section	.text.startup,"ax",@progbits
+	.p2align 4
+	.globl	main
+	.type	main, @function
+main:
+.LFB23:
 	.cfi_startproc
-; %bb.0:
-	stp	x29, x30, [sp, #-16]!           ; 16-byte Folded Spill
+	endbr64
+	subq	$8, %rsp
 	.cfi_def_cfa_offset 16
-	mov	x29, sp
-	.cfi_def_cfa w29, 16
-	.cfi_offset w30, -8
-	.cfi_offset w29, -16
-Lloh0:
-	adrp	x0, l_str@PAGE
-Lloh1:
-	add	x0, x0, l_str@PAGEOFF
-	bl	_puts
-	mov	w0, #0
-	ldp	x29, x30, [sp], #16             ; 16-byte Folded Reload
+	leaq	.LC0(%rip), %rdi
+	call	puts@PLT
+	xorl	%eax, %eax
+	addq	$8, %rsp
+	.cfi_def_cfa_offset 8
 	ret
-	.loh AdrpAdd	Lloh0, Lloh1
 	.cfi_endproc
-                                        ; -- End function
-	.section	__TEXT,__cstring,cstring_literals
-l_str:                                  ; @str
-	.asciz	"Hello world!"
-
-.subsections_via_symbols
+.LFE23:
+	.size	main, .-main
+	.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0"
+	.section	.note.GNU-stack,"",@progbits
+	.section	.note.gnu.property,"a"
+	.align 8
+	.long	 1f - 0f
+	.long	 4f - 1f
+	.long	 5
+0:
+	.string	 "GNU"
+1:
+	.align 8
+	.long	 0xc0000002
+	.long	 3f - 2f
+2:
+	.long	 0x3
+3:
+	.align 8
+4:
