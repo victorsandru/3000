@@ -1,0 +1,2 @@
+A1. hello.c is very similar to syscall-hello.s file. They have the same format and ending doing the same thing. In fact I think they are identical execpt for the name.
+A2. 
