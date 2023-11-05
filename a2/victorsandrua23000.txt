@@ -1,0 +1,21 @@
+1. refer to 3000shell.c
+2. refer to 3000shell.c
+3. This is because even though execve() is removed, and replaced with another system call, they do roughly the same thing.
+In fact, the function that is replacing execve(), execv() is a wrapper around execve(). So in fact, under the hood you are still using the same function.
+Because of this there is no difference.
+4. refer to 3000shell.c
+
+6. This error means that there is a call to some sort of function or variable called 'crypt'
+however it has never been intalizied or declared beforehand. During the process of linking the "crypt.h", it is unable to link the file, so the function call of 'crypt' is undefined.
+You can add the -lcrypt flag to gcc to dynamically link the crypt.h file to your c file
+
+7. On line 34, there is a conditional statement: "if (pw_entry == NULL || sp_entry == NULL)". This the root cause of the difference.
+This is because the program is checking if the password or the shadow password exists, if neither of them do, the program terminates. However, using the diff command,
+you can see that the difference between patched and non patched file that there is a new line where the program gets the users shadow password using the getspnam() function.
+
+8. The full variable is intalizied as an empty array. What memcpy() does, is copy the password of the user to a new memory location (in this case its the full variable).
+If the operation is not performed, when the program goes to line 49, and compares full to something else, it will fail due to authentication failure because the full variable is empty, and not assigned to the user password.
+
+Line 47 is necessary because it removes all non required letters from the string. This includes new line characters, and return characters.
+This is because the program is trying to verify that the password is correct, but if the password is correct BUT has a newline character, it will return a authentication failure.
+Stripping the string from new line characters and return characters will allow it properly compare it to the stored password.

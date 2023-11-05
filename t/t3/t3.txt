@@ -1,0 +1,9 @@
+2. You still cannot switch directories. however, you do not need to wait for child processes to finish. I found this out by experimenting.
+3. You can run a program in the background by outputting an stderr code and letting the process finish on its own.
+You can also add an & at the end of the command
+4. The input and output of each program changes, and nothing happens sometimes. it also provides the process ID and prints it out when it dies.
+5. you can use CTRL+C to send a sigint to the shell and interuppt the current process running.
+6. you can use the '>' operator to make a new file with the output of the command to be written in it. use >> to append.
+7. 
+8. if a system call is interuppted, the program will not retry since the SA_RESTART flags specifies that.
+
