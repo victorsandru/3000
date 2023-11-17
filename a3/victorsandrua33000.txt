@@ -1,0 +1,16 @@
+1. myfile 2 logical size will be greater because dd copies blocks of zeros from /dev/zero with 255 blocks filled with zeros and the block copied. So most of the file is just zeros
+However, myfile3 is being filled with null values instead. What this means is that technically using ls -ls, it shows similar storage being used, the null blocks being copied can be used in other places as well.
+2. code 3000test-0.c and 3000-2.diff
+3. the OS reads the existing data in the file, and doesn't automatically cause the allocation of space for holes in the sparse file. Since holes are areas of a file that are logically allocated but not physically. So when 3000test
+iterates through the file, it can see that the physical data isn't there and retruns null bytes instead.
+4. when using dd with the bck file, the block size has grown from 1024 to 262148. I assume that the reason is that the OS has finally filled in the sparse holes with physical allocation.
+In the cp command, you can use the --sparse flag with "always" will replicate dd's behaviour of maximizing holes of a file.
+5. Because the input file is a bunch of random elements from /dev/urandom, and not specifically zeros or null bytes. Since the blocks that are copied are filled with random elements, the OS has to physically allocate it. Thus not making it a sparse file.
+6. 3000test-a.c and 3000-6.diff
+7 a. its nota good reason to use d_type, since st_mode gives more info about the mode of the file. The info contains the permission bits of user, group etc. also including being able to set user and group ID bits.
+    b.  The total size of the file is missing in 3000test. You can get it by using st_size, and including it in the mmap input.
+    c. When using seek(), it will read file thats linked to the symbolic link. Readdir() will read the actual links information, and not follow the symbolic link to the main file.
+
+8. Since the password is in the /etc/shadow directory, and the only way to view this directory is with root privledges, meaning that someuser cannot earn root and break in.
+Another way the password is protected is that the passwords are protected with a hashed function, and the hashing can only be done one way, so no one can get the plaintext password
+9. Special hardware support is what enables mutual exclusion to acheive atomicity. It atomically tests the old value of the mutex and then sets the new one at the same time. Because of this, only 1 process can access the resources at once.

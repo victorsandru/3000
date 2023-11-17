@@ -1,0 +1,18 @@
+A 1. They both have similar answers, so if the producer and consumer have 0 sleeps, the program is run iteraitavly.
+2. the FIFO sys calls are calls like openat(), read(), pread64(). While the rendezvous has none of those. Also the rendezvous children processes have a lot more write calls. This is because rendezvous is wokring with semaphores, thus having sys calls.
+3. QUEUESIZE is only used in the 3000pc-redezvous.c file. It is not in the fifo program because the fifo program waits on the proceses via the blocking mechanism of the read sys call. 
+While on the other hand, rendezvous is not using any pipes, but rather semaphores to implement a queuing system. Since there is an actual queue being made, it needs the QUEUESIZE var.
+
+B. 1. a. The consumer receives words by reading the pipe for its input, and if there is nothing in the pipe, it waits.
+b. The producer generates words by random, and then inputting the word into the pipe.
+c. the call to srandom is necessary because the way the srandom call works, is that it takes the current epoch time and uses that as a seed from random. This is so the random function will be different all the time.
+2. The difference is that the words are no longer random and the same every time, as I predicted earlier.
+
+C. a. A few ways are different by the way the consumer/producer works. For example the rendezvous uses semaphore locks in order to feed the consumer instead of the read sys call.
+   b. The call to mmap initalizes memory where the mutex locks and then starts the semaphore for each process (shared). I foudn this out by looking at the init function
+   c. It uses the wait_for_consumer function. Here there is a mutex lock, and it only unlocks when the memory's predicate_nonfull is false
+   d. It is the same thing as the wait for wait for consumer.
+2. The consumer time interval has to be higher than the producer
+3. The produce time interval has to be higher than the consumer
+4. This statment is correct. Proof of this statment is in the rendevous program. Here every single thread is sharing memory, and all of the locking logic is based on the shared memory.
+5. The program is stuck in a deadlock since the consumer is waiting for the producer, but the producer is already finished so it will never finish.

@@ -1,0 +1,11 @@
+A. 1. a regular text file reports its inode with a length of 0
+        a directory shows its inode and the length
+        a symbolic link says its an invalid argument
+    2. with lstat(), the symbolic link works
+    3. 
+    4. if you remove rwx access from a file, the program can still run it but it well have a permission denied error code
+
+
+1. the logical size is 268435456 mb
+2. foo does not consume any more space with the command
+3. 

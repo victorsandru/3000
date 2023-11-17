@@ -1,0 +1,38 @@
+*** 3000test.c	2023-11-17 16:29:45.332000000 -0500
+--- 3000test-a.c	2023-11-14 18:03:42.144000000 -0500
+***************
+*** 56,66 ****
+                  if (fd == -1) {
+                          report_error(strerror(errno));
+                  }
+!                 data = (char *) mmap(NULL, len,
+!                                      PROT_READ, MAP_SHARED, fd, 0);
+!                 if (data == MAP_FAILED) {
+!                         report_error(strerror(errno));
+!                 }
+  
+                  count = 0;
+                  for (i=0; i<len; i++) {
+--- 56,64 ----
+                  if (fd == -1) {
+                          report_error(strerror(errno));
+                  }
+! 
+!                 data = malloc(len*sizeof(char));
+!                 int num = pread(fd, data, len, 0);
+  
+                  count = 0;
+                  for (i=0; i<len; i++) {
+***************
+*** 70,79 ****
+                  }
+  
+                  printf(" a count %ld\n", count);
+- 
+-                 if (munmap(data, len) == -1) {
+-                         report_error(strerror(errno));                        
+-                 }
+                  close(fd);
+          }
+  
+--- 68,73 ----

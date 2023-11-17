@@ -1,0 +1,29 @@
+*** 3000test.c	2023-11-17 16:29:45.332000000 -0500
+--- 3000test-0.c	2023-11-14 17:13:01.384000000 -0500
+***************
+*** 64,75 ****
+  
+                  count = 0;
+                  for (i=0; i<len; i++) {
+!                         if (data[i] == 'a') {
+                                  count++;
+                          }
+                  }
+  
+!                 printf(" a count %ld\n", count);
+  
+                  if (munmap(data, len) == -1) {
+                          report_error(strerror(errno));                        
+--- 64,75 ----
+  
+                  count = 0;
+                  for (i=0; i<len; i++) {
+!                         if (data[i] == 0) {
+                                  count++;
+                          }
+                  }
+  
+!                 printf(" null count %ld\n", count);
+  
+                  if (munmap(data, len) == -1) {
+                          report_error(strerror(errno));                        
