@@ -1,0 +1,7 @@
+Part A:
+1. Each file copies some sort of binary data to a new file like f3. 
+f1 is the biggest file so far, with over 90 million bytes in comparsion to the other 2 with only a few bytes.
+2. mknod '>' p 
+mkfifo <
+3. 
+4.
