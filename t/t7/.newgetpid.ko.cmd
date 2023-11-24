@@ -1,0 +1,1 @@
+cmd_/home/student/3000/t/t7/newgetpid.ko := ld -r -m elf_x86_64  -z max-page-size=0x200000 -z noexecstack   --build-id  -T ./scripts/module-common.lds -o /home/student/3000/t/t7/newgetpid.ko /home/student/3000/t/t7/newgetpid.o /home/student/3000/t/t7/newgetpid.mod.o;  true

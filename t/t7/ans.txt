@@ -3,5 +3,27 @@ Part A:
 f1 is the biggest file so far, with over 90 million bytes in comparsion to the other 2 with only a few bytes.
 2. mknod '>' p 
 mkfifo <
-3. 
-4.
+3. I found the major and minor number of /dev/tty and used "sudo mknod mytty c 5 0" to match the major and minor number of 
+/dev/tty. Then when I used "stty --file=mytty" and "stty --file=/dev/tty" the information it gave me is the exact same.
+4. I disabled local echo with "stty -echo" and when it's disabled you cannot see what you're typing
+and you are able to restore echo with this command "stty echo"
+
+Part B:
+1. I see the Hello kernel world! message iun the logs. I used dmesg -w to view them, but there are many others. The logs are stored in /var/log/messages
+2. I can check to see its loaded by doing the lsmod command.
+3. I removed it by using the rmmod command
+
+Part C.
+1. This kernel module says that ones device registered using major 240. It made a new file in sys/module
+2. It is a constant stream of binary. you can pipe in the cat into less to make it not a stream. You can also do head -c 1 /dev/ones to print out only 1 byte
+3. The ones_init is called first
+then ones_devnode is called twice
+Then the ones device is registered
+And again ones_devnode is called twice again
+If you're looking at the kernel messages while you remove the kernel the ones_exit function is called and the devnode is called twice again
+
+
+Part D.
+1. Current is a pointer to a struct called task_struct. I figured it out by going to the docuemenation linked in the specs.
+2. changed device name to describe 
+3. code
