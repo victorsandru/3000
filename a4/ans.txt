@@ -1,0 +1,9 @@
+1. code
+2. a. finit_module()
+b. mmap is needed when using insmod because insmod uses finit_module(), which loads a kernel module from a file descriptor.
+As a result, finit_module needs to access user space so mmap creates the mapping between kernel and user space. After the call, munmap
+is called to close the mapping
+3. When giving a redirection with /dev/tcp/host_name/port_number, bash tries to open a TCP socket instead of opening the file of the specified file.
+Normally when calling cat, it opens and displays the content of the file, but with the redirection operator, it opens a TCP socket at that address:port.
+Since using the redirection operator tries to open a TCP socket, there is no guarantee that the file actually exists. So when a user tries to do ls or cat, there is no file to open.
+The TCP directory is a directory reserved by bash to create direct network connections within the shell. Thus no file exists there.

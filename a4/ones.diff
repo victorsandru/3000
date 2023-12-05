@@ -1,0 +1,117 @@
+*** onesOriginal.c	2023-12-05 10:50:22.004000000 -0500
+--- ones.c	2023-11-28 20:11:51.456000000 -0500
+***************
+*** 24,41 ****
+  static struct class* ones_class = NULL;
+  static struct device* ones_device = NULL;
+  static int ones_major;
+  
+  static int ones_open(struct inode *the_inode, struct file *f)
+  {
+          return 0;
+  }
+  
+  static ssize_t ones_read(struct file *f, char *buf, size_t len, loff_t *offset)
+  {
+          size_t i;
+! 
+          for (i = 0; i < len; i++) {
+!                 put_user('1', buf++);
+          }
+  
+          return i;
+--- 24,45 ----
+  static struct class* ones_class = NULL;
+  static struct device* ones_device = NULL;
+  static int ones_major;
++ static char output = '1';
++ 
+  
+  static int ones_open(struct inode *the_inode, struct file *f)
+  {
++         printk(KERN_INFO "ones: %s: Open called\n", __FUNCTION__);
+          return 0;
+  }
+  
+  static ssize_t ones_read(struct file *f, char *buf, size_t len, loff_t *offset)
+  {
+          size_t i;
+!         if (output == 'n') return 0;
+!         printk(KERN_INFO "ones: %s: Read called\n", __FUNCTION__);
+          for (i = 0; i < len; i++) {
+!                 put_user(output, buf++);
+          }
+  
+          return i;
+***************
+*** 47,70 ****
+          return 0;
+  }
+  
+  
+  static struct file_operations ones_fops = {
+          .open = ones_open,
+          .read = ones_read,
+          .release = ones_release,
+  };
+  
+  
+  static char *ones_devnode(struct device *dev, umode_t *mode)
+  {
+!         if (mode)
+! 	        *mode = 0444;
+!         return NULL;
+  }
+  
+  static int __init ones_init(void)
+  {
+          int retval;
+    
+          ones_major = register_chrdev(0, DEVICE_NAME, &ones_fops);
+          if (ones_major < 0) {
+--- 51,85 ----
+          return 0;
+  }
+  
++ static ssize_t ones_write(struct file *f, const char *buf, size_t len, loff_t *offset)
++ {
++     printk(KERN_INFO "ones: %s: output = %c\n", __FUNCTION__, output);
++     get_user(output, buf);
++     *offset += len;
++     return (ssize_t) *offset;
++ }
+  
+  static struct file_operations ones_fops = {
++         .write = ones_write,
+          .open = ones_open,
+          .read = ones_read,
+          .release = ones_release,
+  };
+  
+  
++ 
++ 
+  static char *ones_devnode(struct device *dev, umode_t *mode)
+  {
+!     if (mode)
+!         *mode = 0666;
+!     return NULL;
+  }
+  
+  static int __init ones_init(void)
+  {
+          int retval;
++         printk(KERN_INFO "ones: %s: Initialization started\n", __FUNCTION__);
+    
+          ones_major = register_chrdev(0, DEVICE_NAME, &ones_fops);
+          if (ones_major < 0) {
+***************
+*** 106,111 ****
+--- 121,127 ----
+  
+  static void __exit ones_exit(void)
+  {
++         printk(KERN_INFO "ones: %s: exit ones_exit called\n", __FUNCTION__);
+          device_destroy(ones_class, MKDEV(ones_major, 0));
+          class_unregister(ones_class);
+          class_destroy(ones_class);

@@ -1,0 +1,1 @@
+cmd_/home/student/3000/t/t8/3000physicalview/3000physicalview.mod := { echo  /home/student/3000/t/t8/3000physicalview/3000physicalview.o;  echo; } > /home/student/3000/t/t8/3000physicalview/3000physicalview.mod

@@ -1,0 +1,18 @@
+1. copy_from_user copies a block of data from userspace, while get_user gets a variable from user space
+These methods are pointers to user-space. Since techincally kernel can access userspace data with just a pointer, you need to know which process the pointer points to.
+You need to get the user program pid with get_user and then copy its data using copy.
+2. ioctl is a system call that changes the underlying device parameters of special files.
+read/write sys calls are usually used for files to a file descriptor while ioctl is more general, that is used for controlling devices. It can also issue commands to devices.
+    ioctl takes a file descriptor, a command and an address.
+    ioctl in 3000memview2 calls it with the same arguments, and it calls it.
+3. pgd_offset() does the virtual to physical translation. current->mm is a pointer to the current processes memory management structure.
+4. You ahve the figure out the offset distance in bytes relative to the start of the page. and then add it to the page frame number.
+
+B. 1.Yes they are consistnet with what I thought.
+2. The difference is that the output of 3000memview is just the virtual address of the memory, without it being translated to physical.
+3. There is a pattern in buf[i], all of the virtual addresses are extremely different. The physical memory however, is not. This is because the physical memory can be allocated wherever it can fit.
+4. ASLR changes the vmemory. Neither memory is the same between runs. The main function physical address doesn't change. This might be because the main function is cached. Since the function it self never changes, but the variables and buffer within it will.
+5. I think the cached memroy was cleared, so the OS has to reallocate the memory.
+
+C.
+1. It is a tracing language, and it traces system calls that are entering ioctl, along with its fd, command and other args. More specifically its just from 3000memview2.

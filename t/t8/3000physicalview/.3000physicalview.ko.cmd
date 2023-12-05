@@ -1,0 +1,1 @@
+cmd_/home/student/3000/t/t8/3000physicalview/3000physicalview.ko := ld -r -m elf_x86_64  -z max-page-size=0x200000 -z noexecstack   --build-id  -T ./scripts/module-common.lds -o /home/student/3000/t/t8/3000physicalview/3000physicalview.ko /home/student/3000/t/t8/3000physicalview/3000physicalview.o /home/student/3000/t/t8/3000physicalview/3000physicalview.mod.o;  true
